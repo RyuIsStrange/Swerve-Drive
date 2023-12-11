@@ -5,7 +5,7 @@ Base Libary - https://github.com/BroncBotz3481/YAGSL/tree/main
 
 Used Exaple Project - https://github.com/BroncBotz3481/YAGSL-Example
 
-# Hardware
+# Swerve Hardware
 - [SDS MK4i L1](https://www.swervedrivespecialties.com/products/mk4i-swerve-module)
 - [CTRE Cancoders](https://store.ctr-electronics.com/cancoder/)
 - [Rev NEO](https://www.revrobotics.com/rev-21-1650/) & [Rev Sparkmax](https://www.revrobotics.com/rev-11-2158/)
