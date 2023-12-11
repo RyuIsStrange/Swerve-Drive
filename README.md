@@ -1,9 +1,16 @@
-# Swerve-Drive
+## Swerve Drive/Project Information
 FRC 4741s swerve project. Bassed off of YAGSL.
 
 Base Libary - https://github.com/BroncBotz3481/YAGSL/tree/main
 
 Used Exaple Project - https://github.com/BroncBotz3481/YAGSL-Example
+
+# Hardware
+- [SDS MK4i L1](https://www.swervedrivespecialties.com/products/mk4i-swerve-module)
+- [CTRE Cancoders](https://store.ctr-electronics.com/cancoder/)
+- [Rev NEO](https://www.revrobotics.com/rev-21-1650/) & [Rev Sparkmax](https://www.revrobotics.com/rev-11-2158/)
+- [NavX2](https://www.andymark.com/products/navx2-mxp-robotics-navigation-sensor)
+
 
 # Vendors
 - [YAGSL](https://github.com/BroncBotz3481/YAGSL/tree/main) ( https://broncbotz3481.github.io/YAGSL-Lib/yagsl/yagsl.json )
