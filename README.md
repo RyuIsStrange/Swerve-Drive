@@ -19,4 +19,4 @@ Used Exaple Project - https://github.com/BroncBotz3481/YAGSL-Example
 - [REV Lib](https://docs.revrobotics.com/sparkmax/software-resources/spark-max-api-information#c++-and-java) ( https://software-metadata.revrobotics.com/REVLib-2023.json )
 
 # Simulation
-Done with [Pathplaner](https://github.com/mjansen4857/pathplanner) & [AdvantageScope](https://github.com/Mechanical-Advantage/AdvantageScope)
+Done with [AdvantageScope](https://github.com/Mechanical-Advantage/AdvantageScope)
