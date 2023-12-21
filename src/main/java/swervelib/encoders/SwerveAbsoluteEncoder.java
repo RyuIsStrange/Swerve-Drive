@@ -45,4 +45,18 @@ public abstract class SwerveAbsoluteEncoder
    * @return Absolute encoder object.
    */
   public abstract Object getAbsoluteEncoder();
+
+  /**
+   * Sets the Absolute Encoder offset at the Encoder Level.
+   *
+   * @param offset the offset the Absolute Encoder uses as the zero point.
+   * @return if setting Absolute Encoder Offset was successful or not.
+   */
+  public abstract boolean setAbsoluteEncoderOffset(double offset);
+
+  /**
+   * Get the velocity in degrees/sec.
+   * @return velocity in degrees/sec.
+   */
+  public abstract double getVelocity();
 }
