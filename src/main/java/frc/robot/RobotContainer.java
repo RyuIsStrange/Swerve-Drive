@@ -95,7 +95,7 @@ public class RobotContainer
     new Trigger(() -> Math.abs(Constants.operatorController.getRawAxis(5)) > 0.1).whileTrue(m_intake.runRightIntake(Constants.operatorController::getRightY));
     new Trigger(() -> Math.abs(Constants.operatorController.getRawAxis(5)) < 0.1).whileTrue(m_intake.runRightIntake(Constants.operatorController::getRightY));
     new Trigger(() -> Math.abs(Constants.operatorController.getRawAxis(5)) == 0).whileTrue(m_intake.stopRightIntake());
-    // Shooter
+    // Shooter, LT & RT
     Constants.operatorController.rightTrigger(.1).whileTrue(m_shooter.runShooter(1));
     Constants.operatorController.leftTrigger(.1).whileTrue(m_shooter.runShooter(-1));
     Constants.operatorController.rightTrigger().whileFalse(m_shooter.runShooter(0));
