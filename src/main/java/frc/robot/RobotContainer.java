@@ -23,6 +23,8 @@ import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 
+import frc.robot.subsystems.Intake.IntakeSubsystem;
+import com.pathplanner.lib.auto.NamedCommands;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
  * little robot logic should actually be handled in the {@link Robot} periodic methods (other than the scheduler calls).
@@ -30,6 +32,7 @@ import java.io.File;
  */
 public class RobotContainer
 {
+  private final IntakeSubsystem m_intake = new IntakeSubsystem();
 
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
@@ -46,6 +49,12 @@ public class RobotContainer
    */
   public RobotContainer()
   {
+    NamedCommands.registerCommand("autoRunIntake", m_intake.autoRunIntake(.5));
+    NamedCommands.registerCommand("stopIntake", m_intake.stopIntake(0));
+    
+    
+    
+    
     // Configure the trigger bindings
     configureBindings();
 
@@ -101,7 +110,9 @@ public class RobotContainer
   private void configureBindings()
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+    Constants.driverController.leftTrigger(0.1).whileTrue(m_intake.runIntake(0.25));
 
+    Constants.driverController.leftTrigger().whileFalse(m_intake.runIntake(0));
     new JoystickButton(driverXbox, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
     new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     new JoystickButton(driverXbox,
