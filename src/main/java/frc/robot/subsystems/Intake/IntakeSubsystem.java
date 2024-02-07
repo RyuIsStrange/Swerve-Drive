@@ -2,6 +2,7 @@ package frc.robot.subsystems.Intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import java.util.function.DoubleSupplier;
 
 //import com.revrobotics.*;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -9,36 +10,55 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkMax;
 
 public class IntakeSubsystem extends SubsystemBase {
-    /* 
-     * 2024s Intake
-     * There are just a few  more sparkmaxs in the actual
-     * For this there are just 2 for example purpose
-     */
-    private final CANSparkMax intakefr;
-    
+    private final CANSparkMax intakeRight; // Right Joystick
+    private final CANSparkMax intakeLeft; // Left Joystick
+
     public IntakeSubsystem() {
-        intakefr = new CANSparkMax(13, MotorType.kBrushless);
+        intakeRight = new CANSparkMax(13, MotorType.kBrushless);
+        intakeLeft = new CANSparkMax(14, MotorType.kBrushless);
 
-        intakefr.restoreFactoryDefaults();
-        intakefr.setInverted(true);
-        intakefr.setIdleMode(IdleMode.kCoast);
+        intakeRight.restoreFactoryDefaults();
+        intakeLeft.restoreFactoryDefaults();
+        intakeRight.setIdleMode(IdleMode.kCoast);
+        intakeLeft.setIdleMode(IdleMode.kCoast);
     }
 
-    public Command runIntake(double speed){
+    public Command runRightIntake(DoubleSupplier supplier){
+        double speed = supplier.getAsDouble();
         return run(()-> {
-            intakefr.set(speed);
+            intakeRight.set(speed);
+        });
+    }
+    public Command runLeftIntake(DoubleSupplier supplier){
+        double speed = supplier.getAsDouble();
+        return run(()-> {
+            intakeLeft.set(speed);
         });
     }
 
-    public Command stopIntake(double speed){
+    public Command stopRightIntake(){
         return run(() -> {
-            intakefr.set(0);
+            intakeRight.set(0);
+        });
+    }
+
+    public Command stopLeftIntake(){
+        return run(() -> {
+            intakeLeft.set(0);
+        });
+    }
+    // Auto Command
+    public Command stopIntake(){
+        return run(() -> {
+            intakeRight.set(0);
+            intakeLeft.set(0);
         });
     }
     
-    public Command autoRunIntake(double speed){
+    public Command autoRunIntake(){
         return run(() -> {
-            intakefr.set(.5);
+            intakeRight.set(0.5);
+            intakeLeft.set(-0.5);
         });
     }
 
