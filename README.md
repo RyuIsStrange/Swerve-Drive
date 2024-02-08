@@ -20,6 +20,7 @@ Used Exaple Project - https://github.com/BroncBotz3481/YAGSL-Example
 - [REV Lib](https://docs.revrobotics.com/sparkmax/software-resources/spark-max-api-information#c++-and-java) ( https://software-metadata.revrobotics.com/REVLib-2024.json )
 - [ReduxLib](https://docs.reduxrobotics.com/reduxlib) ( https://frcsdk.reduxrobotics.com/ReduxLib_2024.json )
 - [PathPlanner](https://github.com/mjansen4857/pathplanner/wiki/PathPlannerLib:-Installing) ( https://3015rangerrobotics.github.io/pathplannerlib/PathplannerLib.json )
+- [PhotonLib](https://docs.photonvision.org/en/latest/docs/programming/photonlib/adding-vendordep.html) ( https://maven.photonvision.org/repository/internal/org/photonvision/photonlib-json/1.0/photonlib-json-1.0.json )
 
 # Simulation
 Done with [AdvantageScope](https://github.com/Mechanical-Advantage/AdvantageScope) and [WPILibs Robot Simulation](https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-simulation/introduction.html)
