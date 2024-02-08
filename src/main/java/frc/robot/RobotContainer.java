@@ -84,6 +84,7 @@ public class RobotContainer
     Constants.operatorController.povDown().onTrue(null);
     // Conv, Bumpers and run when inake
     Constants.operatorController.axisGreaterThan(5, 0.1).whileTrue(m_conv.runConvIntake());
+    Constants.operatorController.axisLessThan(5, 0.1).whileTrue(m_conv.stopConv());
     Constants.operatorController.rightBumper().onTrue(m_conv.runConv(.5));
     Constants.operatorController.leftBumper().onTrue(m_conv.runConv(-.5));
     Constants.operatorController.rightBumper().onFalse(m_conv.runConv(0));
@@ -116,7 +117,8 @@ public class RobotContainer
   public Command getAutonomousCommand()
   {
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Path", true);
+    return drivebase.getAutonomousCommand("New Auto");
+    //return drivebase.getAutonomousCommand("New Path", true);
   }
 
   public void setDriveMode()
