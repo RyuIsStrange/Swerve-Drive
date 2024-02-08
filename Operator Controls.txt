@@ -1,0 +1,15 @@
+Intake
+	- L(higher bar) & R(lower bar) Joysticks
+	- pinch to intake (uninvert one)
+	- Runs conv as well, low speed right joystck pointed up
+
+Conv.
+	- Right bumper +
+	- Left bumper -
+
+Climber
+	- DPad (UP is up, down is down, duh)
+
+Shooter
+	- RT to shoot
+	- LT to invert
