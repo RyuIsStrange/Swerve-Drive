@@ -1,0 +1,119 @@
+{
+  "version": "3.0.2",
+  "layout": [
+    {
+      "type": 9,
+      "fields": [
+        {
+          "key": "NT:/SmartDashboard/swerve/measuredChassisSpeeds",
+          "sourceTypeIndex": 0,
+          "sourceType": 5
+        },
+        {
+          "key": "NT:/SmartDashboard/swerve/measuredStates",
+          "sourceTypeIndex": 0,
+          "sourceType": 5
+        },
+        {
+          "key": "NT:/SmartDashboard/Adjusted IMU Yaw",
+          "sourceTypeIndex": 0,
+          "sourceType": 2
+        }
+      ],
+      "listFields": [],
+      "options": {
+        "maxSpeed": 4.5,
+        "rotationUnits": "degrees",
+        "arrangement": "1,0,2,3",
+        "sizeLeftRight": 0.762,
+        "sizeFrontBack": 0.762,
+        "forwardDirection": "up"
+      },
+      "configHidden": false,
+      "title": "Swerve"
+    },
+    {
+      "type": 9,
+      "fields": [
+        {
+          "key": "NT:/SmartDashboard/swerve/desiredStates",
+          "sourceTypeIndex": 0,
+          "sourceType": 5
+        },
+        {
+          "key": "NT:/SmartDashboard/swerve/measuredStates",
+          "sourceTypeIndex": 0,
+          "sourceType": 5
+        },
+        {
+          "key": "NT:/SmartDashboard/Adjusted IMU Yaw",
+          "sourceTypeIndex": 0,
+          "sourceType": 2
+        }
+      ],
+      "listFields": [],
+      "options": {
+        "maxSpeed": 4.5,
+        "rotationUnits": "degrees",
+        "arrangement": "1,0,2,3",
+        "sizeLeftRight": 0.762,
+        "sizeFrontBack": 0.762,
+        "forwardDirection": "up"
+      },
+      "configHidden": false,
+      "title": "Swerve"
+    },
+    {
+      "type": 5,
+      "fields": [],
+      "listFields": [
+        [
+          {
+            "type": "Robot",
+            "key": "NT:/SmartDashboard/Field/Robot",
+            "sourceTypeIndex": 0,
+            "sourceType": 5
+          }
+        ]
+      ],
+      "options": {
+        "game": "2024 Field",
+        "unitDistance": "meters",
+        "unitRotation": "degrees",
+        "origin": "right",
+        "size": 0.762,
+        "allianceBumpers": "auto",
+        "allianceOrigin": "blue",
+        "orientation": "blue left, red right"
+      },
+      "configHidden": false,
+      "title": "Odometry"
+    },
+    {
+      "type": 6,
+      "fields": [],
+      "listFields": [
+        [],
+        [
+          {
+            "type": "Robot",
+            "key": "NT:/SmartDashboard/Field/Robot",
+            "sourceTypeIndex": 0,
+            "sourceType": 5
+          }
+        ]
+      ],
+      "options": {
+        "field": "2024 Field",
+        "alliance": "blue",
+        "robot": "Duck Bot",
+        "unitDistance": "meters",
+        "unitRotation": "degrees",
+        "cameraIndex": -1,
+        "fov": 50
+      },
+      "configHidden": false,
+      "title": "3D Field"
+    }
+  ]
+}

@@ -80,10 +80,10 @@ public class RobotContainer
   private void configureBindings()
   {
     // Climber, DPad
-    Constants.operatorController.povUp().onTrue(null);
-    Constants.operatorController.povDown().onTrue(null);
+    //Constants.operatorController.povUp().onTrue(null);
+    //Constants.operatorController.povDown().onTrue(null);
     // Conv, Bumpers and run when inake
-    Constants.operatorController.axisGreaterThan(5, 0.1).whileTrue(m_conv.runConvIntake());
+    Constants.operatorController.axisGreaterThan(5, 0.1).whileTrue(m_conv.runConvIntake()); // Looks wrong because of Intake stuff but we just running the Conv.
     Constants.operatorController.axisLessThan(5, 0.1).whileTrue(m_conv.stopConv());
     Constants.operatorController.rightBumper().onTrue(m_conv.runConv(.5));
     Constants.operatorController.leftBumper().onTrue(m_conv.runConv(-.5));
@@ -117,7 +117,7 @@ public class RobotContainer
   public Command getAutonomousCommand()
   {
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Auto");
+    return drivebase.getAutonomousCommand("Score 2");
     //return drivebase.getAutonomousCommand("New Path", true);
   }
 
