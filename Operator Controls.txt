@@ -2,6 +2,9 @@ Intake
 	- L(higher bar) & R(lower bar) Joysticks
 	- pinch to intake (uninvert one)
 	- Runs conv as well, low speed right joystck pointed up
+	Backup
+	- A intake
+	- B Go over/Invert
 
 Conv.
 	- Right bumper +

@@ -8,27 +8,33 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
+
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
 import frc.robot.subsystems.Climber.ClimberSubsystem;
 import frc.robot.subsystems.Conv.ConvSubsystem;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
-import frc.robot.subsystems.Shooter.ShooterSubsystem;;
+import frc.robot.subsystems.Shooter.ShooterSubsystem;
 
 public class RobotContainer
 {
@@ -42,24 +48,19 @@ public class RobotContainer
   CommandJoystick driverController = new CommandJoystick(1);
   XboxController driverXbox = new XboxController(0);
 
+  private final SendableChooser<Command> autoChooser;
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer()
   {
-    // Climber
-    // Put things here when I make it
-    // Conv
-    NamedCommands.registerCommand("runConv", m_conv.autoRunConv());
-    NamedCommands.registerCommand("stopConv", m_conv.stopConv());
-    // Intake
-    NamedCommands.registerCommand("runIntake", m_intake.autoRunIntake());
-    NamedCommands.registerCommand("stopIntake", m_intake.stopIntake());
-    // Shooter
-    NamedCommands.registerCommand("runShooter", m_shooter.autoShooterRun());
-    NamedCommands.registerCommand("stopShooter", m_shooter.stopShooter());
-
     // Configure the trigger bindings
+    autoChooser = AutoBuilder.buildAutoChooser("Simple Auto");
+    SmartDashboard.putData("Auto Mode", autoChooser);
+    configurePathPlanner();
+    PortForwarder.add(5800, "photonvision.local", 5800);
+
     configureBindings();
 
     AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,() -> MathUtil.applyDeadband(driverXbox.getLeftY(),OperatorConstants.LEFT_Y_DEADBAND),() -> MathUtil.applyDeadband(driverXbox.getLeftX(),OperatorConstants.LEFT_X_DEADBAND),() -> MathUtil.applyDeadband(driverXbox.getRightX(),OperatorConstants.RIGHT_X_DEADBAND),driverXbox::getYButtonPressed,driverXbox::getAButtonPressed,driverXbox::getXButtonPressed,driverXbox::getBButtonPressed);
@@ -80,8 +81,8 @@ public class RobotContainer
   private void configureBindings()
   {
     // Climber, DPad
-    //Constants.operatorController.povUp().onTrue(null);
-    //Constants.operatorController.povDown().onTrue(null);
+    Constants.operatorController.povUp().onTrue(m_climber.setHeight(ClimberSubsystem.ClimberState.EXTENDED.height));
+    Constants.operatorController.povDown().onTrue(m_climber.setHeight(ClimberSubsystem.ClimberState.RETRACTED.height));
     // Conv, Bumpers and run when inake
     Constants.operatorController.axisGreaterThan(5, 0.1).whileTrue(m_conv.runConvIntake()); // Looks wrong because of Intake stuff but we just running the Conv.
     Constants.operatorController.axisLessThan(5, 0.1).whileTrue(m_conv.stopConv());
@@ -110,14 +111,29 @@ public class RobotContainer
     //new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
   }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   * @return the command to run in autonomous
-   */
+  
+  public void configurePathPlanner() {
+    // Conv
+    NamedCommands.registerCommand("runConv", m_conv.autoRunConv());
+    NamedCommands.registerCommand("stopConv", m_conv.stopConv());
+    // Intake
+    NamedCommands.registerCommand("runIntake", m_intake.autoRunIntake());
+    NamedCommands.registerCommand("stopIntake", m_intake.stopIntake());
+    // Shooter
+    NamedCommands.registerCommand("runShooter", m_shooter.autoShooterRun());
+    NamedCommands.registerCommand("stopShooter", m_shooter.stopShooter());
+
+    drivebase.setupPathPlanner();
+  }
+
   public Command getAutonomousCommand()
   {
+    // Gets Selected Auto from Shuffleboard
+    return autoChooser.getSelected();
+    
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("Score 2");
+    
+    //return drivebase.getAutonomousCommand("Score 2");
     //return drivebase.getAutonomousCommand("New Path", true);
   }
 
