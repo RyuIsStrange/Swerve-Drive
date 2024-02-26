@@ -81,33 +81,51 @@ public class RobotContainer
   private void configureBindings()
   {
     // Climber, DPad
-    Constants.operatorController.povUp().onTrue(m_climber.setHeight(ClimberSubsystem.ClimberState.EXTENDED.height));
-    Constants.operatorController.povDown().onTrue(m_climber.setHeight(ClimberSubsystem.ClimberState.RETRACTED.height));
+    //Constants.operatorController.povUp().onTrue(m_climber.setHeight(ClimberSubsystem.ClimberState.EXTENDED.height));
+    //Constants.operatorController.povDown().onTrue(m_climber.setHeight(ClimberSubsystem.ClimberState.RETRACTED.height));
+
+    Constants.operatorController.povDown().whileTrue(m_climber.uhOhNoWorky(-.75)).whileFalse(m_climber.uhOhNoWorkyStop());
+    Constants.operatorController.povUp().whileTrue(m_climber.uhOhNoWorky(.75)).whileFalse(m_climber.uhOhNoWorkyStop());
+
     // Conv, Bumpers and run when inake
-    Constants.operatorController.axisGreaterThan(5, 0.1).whileTrue(m_conv.runConvIntake()); // Looks wrong because of Intake stuff but we just running the Conv.
-    Constants.operatorController.axisLessThan(5, 0.1).whileTrue(m_conv.stopConv());
-    Constants.operatorController.rightBumper().onTrue(m_conv.runConv(.5));
-    Constants.operatorController.leftBumper().onTrue(m_conv.runConv(-.5));
-    Constants.operatorController.rightBumper().onFalse(m_conv.runConv(0));
-    Constants.operatorController.leftBumper().onFalse(m_conv.runConv(0));
-    // Intake, left and right
+    //Constants.operatorController.axisGreaterThan(5, 0.1).whileTrue(m_conv.runConvIntake()); // Looks wrong because of Intake stuff but we just running the Conv.
+    //Constants.operatorController.axisLessThan(5, 0.1).whileTrue(m_conv.stopConv());
+    Constants.operatorController.rightBumper().onTrue(m_conv.runConv(1))
+      .onFalse(m_conv.runConv(0));
+    Constants.operatorController.leftBumper().onTrue(m_conv.runConv(-1))
+      .onFalse(m_conv.runConv(0));
+    
+    Constants.operatorController.a().onTrue(m_conv.autoRunConv())
+      .onFalse(m_conv.stopConv());
+    Constants.operatorController.b().onTrue(m_conv.runConv(-0.6))
+      .onFalse(m_conv.stopConv());
+
+    /* Intake, left and right === Working on making these work
+    following items are temp fix, unless I dont :p
     new Trigger(() -> Math.abs(Constants.operatorController.getRawAxis(1)) > 0.1).whileTrue(m_intake.runLeftIntake(Constants.operatorController::getLeftY));
     new Trigger(() -> Math.abs(Constants.operatorController.getRawAxis(1)) < 0.1).whileTrue(m_intake.runLeftIntake(Constants.operatorController::getLeftY));
     new Trigger(() -> Math.abs(Constants.operatorController.getRawAxis(1)) == 0).whileTrue(m_intake.stopLeftIntake());
     new Trigger(() -> Math.abs(Constants.operatorController.getRawAxis(5)) > 0.1).whileTrue(m_intake.runRightIntake(Constants.operatorController::getRightY));
     new Trigger(() -> Math.abs(Constants.operatorController.getRawAxis(5)) < 0.1).whileTrue(m_intake.runRightIntake(Constants.operatorController::getRightY));
     new Trigger(() -> Math.abs(Constants.operatorController.getRawAxis(5)) == 0).whileTrue(m_intake.stopRightIntake());
+     */
+    Constants.operatorController.a().whileTrue(m_intake.autoRunIntake())
+      .whileFalse(m_intake.stopIntake());
+    Constants.operatorController.b().whileTrue(m_intake.autoRunIntakeRevers())
+      .whileFalse(m_intake.stopIntake());
+    
     // Shooter, LT & RT
-    Constants.operatorController.rightTrigger(.1).whileTrue(m_shooter.runShooter(1));
-    Constants.operatorController.leftTrigger(.1).whileTrue(m_shooter.runShooter(-1));
-    Constants.operatorController.rightTrigger().whileFalse(m_shooter.runShooter(0));
-    Constants.operatorController.leftTrigger().whileFalse(m_shooter.runShooter(0));
+    Constants.operatorController.rightTrigger(.1).whileTrue(m_shooter.runShooter(1))
+      .whileFalse(m_shooter.runShooter(0));
+    Constants.operatorController.leftTrigger(.1).whileTrue(m_shooter.runShooter(-1))
+      .whileFalse(m_shooter.runShooter(0));
 
 
     // Default stuff remove eventually
     new JoystickButton(driverXbox, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
-    new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    new JoystickButton(driverXbox, 2).whileTrue(Commands.deferredProxy(() -> drivebase.driveToPose(new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))));
+    
+    //new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+    //new JoystickButton(driverXbox, 2).whileTrue(Commands.deferredProxy(() -> drivebase.driveToPose(new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))));
     //new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
   }
 

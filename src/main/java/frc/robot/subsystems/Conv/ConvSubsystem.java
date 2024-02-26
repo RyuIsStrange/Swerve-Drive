@@ -24,14 +24,14 @@ public class ConvSubsystem extends SubsystemBase {
     }
     public Command runConvIntake(){
         return run(() -> {
-            convMotor.set(.1);
+            convMotor.set(.6);
         });
     }
 
     // Auto
     public Command autoRunConv(){
         return run(() -> {
-            convMotor.set(.5);
+            convMotor.set(.8);
         });
     }
     public Command stopConv(){
