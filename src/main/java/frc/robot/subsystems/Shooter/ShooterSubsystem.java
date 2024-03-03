@@ -24,13 +24,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // Auto
     public Command stopShooter(){
-        return run(() -> {
-            shooterMotor.set(0);
-        });
+        return this.runOnce(() -> 
+            shooterMotor.set(0)
+        );
     }
     public Command autoShooterRun(){
-        return run(() -> {
-            shooterMotor.set(1);
-        });
+        return this.runOnce(() -> 
+            shooterMotor.set(1)
+        );
     }
 }

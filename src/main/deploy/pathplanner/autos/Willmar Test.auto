@@ -3,7 +3,7 @@
   "startingPose": {
     "position": {
       "x": 1.2186814117217974,
-      "y": 6.712444649960525
+      "y": 7.004798511021523
     },
     "rotation": 180.0
   },
@@ -12,9 +12,28 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "sequential",
           "data": {
-            "pathName": "New Path"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "scor"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 2.0
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "safe"
+                }
+              }
+            ]
           }
         }
       ]

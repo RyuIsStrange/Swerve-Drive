@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 1.2186814117217974,
-        "y": 6.712444649960525
+        "y": 7.004798511021523
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.2186814117217963,
-        "y": 6.712444649960525
+        "x": 1.4291761916857164,
+        "y": 5.671664904583371
       },
       "isLocked": false,
       "linkedName": null
@@ -20,20 +20,26 @@
         "y": 7.68305946868304
       },
       "prevControl": {
-        "x": 1.8852482149408742,
-        "y": 6.794303731057604
+        "x": 1.861859906055994,
+        "y": 7.624588696470841
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": 90.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Conv, Shoot, Stop",
-      "waypointRelativePos": 0.4,
+      "name": "shooter",
+      "waypointRelativePos": 0.05,
       "command": {
         "type": "sequential",
         "data": {
@@ -41,21 +47,20 @@
             {
               "type": "named",
               "data": {
-                "name": "runConv"
-              }
-            },
-            {
-              "type": "wait",
-              "data": {
-                "waitTime": 0.75
-              }
-            },
-            {
-              "type": "named",
-              "data": {
                 "name": "runShooter"
               }
-            },
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 1.0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
             {
               "type": "wait",
               "data": {
@@ -65,13 +70,7 @@
             {
               "type": "named",
               "data": {
-                "name": "stopConv"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "stopShooter"
+                "name": "runConv"
               }
             }
           ]
@@ -80,7 +79,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 1.0,
+    "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
@@ -91,7 +90,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "wilm",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

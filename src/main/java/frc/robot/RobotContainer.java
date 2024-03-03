@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -43,53 +46,41 @@ public class RobotContainer
   private final IntakeSubsystem m_intake = new IntakeSubsystem();
   private final ShooterSubsystem m_shooter = new ShooterSubsystem();
 
-  // The robot's subsystems and commands are defined here...
-  private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),"swerve/neo"));
-  CommandJoystick driverController = new CommandJoystick(1);
-  XboxController driverXbox = new XboxController(0);
-
+  private final SwerveSubsystem m_drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),"swerve/neo"));
   private final SendableChooser<Command> autoChooser;
-
-  /**
-   * The container for the robot. Contains subsystems, OI devices, and commands.
-   */
+  // CommandJoystick driverController = new CommandJoystick(1);
+  XboxController driverXbox = new XboxController(0);
+  
+  UsbCamera camera1;
   public RobotContainer()
   {
     // Configure the trigger bindings
     autoChooser = AutoBuilder.buildAutoChooser("Simple Auto");
     SmartDashboard.putData("Auto Mode", autoChooser);
     configurePathPlanner();
+    // Conv
+    NamedCommands.registerCommand("runConv", m_conv.autoRunConv());
+    NamedCommands.registerCommand("stopConv", m_conv.stopConv());
+    // Intake
+    NamedCommands.registerCommand("runIntake", m_intake.autoRunIntake());
+    NamedCommands.registerCommand("stopIntake", m_intake.stopIntake());
+    // Shooter
+    NamedCommands.registerCommand("runShooter", m_shooter.autoShooterRun());
+    NamedCommands.registerCommand("stopShooter", m_shooter.stopShooter());
     PortForwarder.add(5800, "photonvision.local", 5800);
+    camera1 = CameraServer.startAutomaticCapture(0);
+    camera1.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
     configureBindings();
-
-    AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,() -> MathUtil.applyDeadband(driverXbox.getLeftY(),OperatorConstants.LEFT_Y_DEADBAND),() -> MathUtil.applyDeadband(driverXbox.getLeftX(),OperatorConstants.LEFT_X_DEADBAND),() -> MathUtil.applyDeadband(driverXbox.getRightX(),OperatorConstants.RIGHT_X_DEADBAND),driverXbox::getYButtonPressed,driverXbox::getAButtonPressed,driverXbox::getXButtonPressed,driverXbox::getBButtonPressed);
-
-    Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(() -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),() -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),() -> driverXbox.getRawAxis(2));
-
-    Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(() -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),() -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),() -> driverXbox.getRawAxis(2));
-
-    Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
-        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -driverXbox.getRightX(),
-        () -> -driverXbox.getRightY());
-
-    drivebase.setDefaultCommand( !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngle );
   }
 
   private void configureBindings()
   {
     // Climber, DPad
-    //Constants.operatorController.povUp().onTrue(m_climber.setHeight(ClimberSubsystem.ClimberState.EXTENDED.height));
-    //Constants.operatorController.povDown().onTrue(m_climber.setHeight(ClimberSubsystem.ClimberState.RETRACTED.height));
-
-    Constants.operatorController.povDown().whileTrue(m_climber.uhOhNoWorky(-.75)).whileFalse(m_climber.uhOhNoWorkyStop());
-    Constants.operatorController.povUp().whileTrue(m_climber.uhOhNoWorky(.75)).whileFalse(m_climber.uhOhNoWorkyStop());
+    Constants.operatorController.povDown().whileTrue(m_climber.uhOhNoWorky(.75)).whileFalse(m_climber.uhOhNoWorkyStop());
+    Constants.operatorController.povUp().whileTrue(m_climber.uhOhNoWorky(-.75)).whileFalse(m_climber.uhOhNoWorkyStop());
 
     // Conv, Bumpers and run when inake
-    //Constants.operatorController.axisGreaterThan(5, 0.1).whileTrue(m_conv.runConvIntake()); // Looks wrong because of Intake stuff but we just running the Conv.
-    //Constants.operatorController.axisLessThan(5, 0.1).whileTrue(m_conv.stopConv());
     Constants.operatorController.rightBumper().onTrue(m_conv.runConv(1))
       .onFalse(m_conv.runConv(0));
     Constants.operatorController.leftBumper().onTrue(m_conv.runConv(-1))
@@ -100,68 +91,52 @@ public class RobotContainer
     Constants.operatorController.b().onTrue(m_conv.runConv(-0.6))
       .onFalse(m_conv.stopConv());
 
-    /* Intake, left and right === Working on making these work
-    following items are temp fix, unless I dont :p
-    new Trigger(() -> Math.abs(Constants.operatorController.getRawAxis(1)) > 0.1).whileTrue(m_intake.runLeftIntake(Constants.operatorController::getLeftY));
-    new Trigger(() -> Math.abs(Constants.operatorController.getRawAxis(1)) < 0.1).whileTrue(m_intake.runLeftIntake(Constants.operatorController::getLeftY));
-    new Trigger(() -> Math.abs(Constants.operatorController.getRawAxis(1)) == 0).whileTrue(m_intake.stopLeftIntake());
-    new Trigger(() -> Math.abs(Constants.operatorController.getRawAxis(5)) > 0.1).whileTrue(m_intake.runRightIntake(Constants.operatorController::getRightY));
-    new Trigger(() -> Math.abs(Constants.operatorController.getRawAxis(5)) < 0.1).whileTrue(m_intake.runRightIntake(Constants.operatorController::getRightY));
-    new Trigger(() -> Math.abs(Constants.operatorController.getRawAxis(5)) == 0).whileTrue(m_intake.stopRightIntake());
-     */
+    // Intake
     Constants.operatorController.a().whileTrue(m_intake.autoRunIntake())
       .whileFalse(m_intake.stopIntake());
     Constants.operatorController.b().whileTrue(m_intake.autoRunIntakeRevers())
       .whileFalse(m_intake.stopIntake());
     
     // Shooter, LT & RT
-    Constants.operatorController.rightTrigger(.1).whileTrue(m_shooter.runShooter(1))
+    Constants.operatorController.rightTrigger(.1).whileTrue(m_shooter.runShooter(.75))
       .whileFalse(m_shooter.runShooter(0));
-    Constants.operatorController.leftTrigger(.1).whileTrue(m_shooter.runShooter(-1))
+    Constants.operatorController.leftTrigger(.1).whileTrue(m_shooter.runShooter(-.75))
       .whileFalse(m_shooter.runShooter(0));
 
 
     // Default stuff remove eventually
-    new JoystickButton(driverXbox, 1).onTrue((new InstantCommand(drivebase::zeroGyro)));
+    new JoystickButton(driverXbox, 1).onTrue((new InstantCommand(m_drivebase::zeroGyro)));
+    new JoystickButton(driverXbox, 4).whileTrue(new InstantCommand(m_drivebase::lock, m_drivebase));
     
-    //new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    //new JoystickButton(driverXbox, 2).whileTrue(Commands.deferredProxy(() -> drivebase.driveToPose(new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))));
-    //new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
+    // new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(m_drivebase::addFakeVisionReading));
+    // new JoystickButton(driverXbox, 2).whileTrue(Commands.deferredProxy(() -> m_drivebase.driveToPose(new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))));
   }
-
   
   public void configurePathPlanner() {
-    // Conv
-    NamedCommands.registerCommand("runConv", m_conv.autoRunConv());
-    NamedCommands.registerCommand("stopConv", m_conv.stopConv());
-    // Intake
-    NamedCommands.registerCommand("runIntake", m_intake.autoRunIntake());
-    NamedCommands.registerCommand("stopIntake", m_intake.stopIntake());
-    // Shooter
-    NamedCommands.registerCommand("runShooter", m_shooter.autoShooterRun());
-    NamedCommands.registerCommand("stopShooter", m_shooter.stopShooter());
 
-    drivebase.setupPathPlanner();
+    m_drivebase.setupPathPlanner();
   }
 
   public Command getAutonomousCommand()
   {
     // Gets Selected Auto from Shuffleboard
     return autoChooser.getSelected();
-    
-    // An example command will be run in autonomous
-    
-    //return drivebase.getAutonomousCommand("Score 2");
-    //return drivebase.getAutonomousCommand("New Path", true);
   }
 
   public void setDriveMode()
   {
-    //drivebase.setDefaultCommand();
+    Command driveFieldOrientedDirectAngle = m_drivebase.driveCommand(
+        () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -driverXbox.getRightX(),
+        () -> -driverXbox.getRightY());
+
+    m_drivebase.setDefaultCommand( 
+        !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngle );
   }
 
   public void setMotorBrake(boolean brake)
   {
-    drivebase.setMotorBrake(brake);
+    m_drivebase.setMotorBrake(brake);
   }
 }

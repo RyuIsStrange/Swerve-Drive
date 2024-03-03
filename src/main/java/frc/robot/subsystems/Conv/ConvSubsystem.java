@@ -31,7 +31,7 @@ public class ConvSubsystem extends SubsystemBase {
     // Auto
     public Command autoRunConv(){
         return run(() -> {
-            convMotor.set(.8);
+            convMotor.set(1);
         });
     }
     public Command stopConv(){
