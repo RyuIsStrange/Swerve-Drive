@@ -1,46 +1,42 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
+// Un-used
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.Commands;
+// Main things
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.net.PortForwarder;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-
+// Subsystems
 import frc.robot.subsystems.Climber.ClimberSubsystem;
 import frc.robot.subsystems.Conv.ConvSubsystem;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.Shooter.ShooterSubsystem;
 
-public class RobotContainer
-{
+public class RobotContainer {
   private final ClimberSubsystem m_climber = new ClimberSubsystem();
   private final ConvSubsystem m_conv = new ConvSubsystem();
   private final IntakeSubsystem m_intake = new IntakeSubsystem();
@@ -52,8 +48,7 @@ public class RobotContainer
   XboxController driverXbox = new XboxController(0);
   
   UsbCamera camera1;
-  public RobotContainer()
-  {
+  public RobotContainer() {
     // Configure the trigger bindings
     autoChooser = AutoBuilder.buildAutoChooser("Simple Auto");
     SmartDashboard.putData("Auto Mode", autoChooser);
@@ -74,8 +69,7 @@ public class RobotContainer
     configureBindings();
   }
 
-  private void configureBindings()
-  {
+  private void configureBindings() {
     // Climber, DPad
     Constants.operatorController.povDown().whileTrue(m_climber.uhOhNoWorky(.75)).whileFalse(m_climber.uhOhNoWorkyStop());
     Constants.operatorController.povUp().whileTrue(m_climber.uhOhNoWorky(-.75)).whileFalse(m_climber.uhOhNoWorkyStop());
@@ -117,14 +111,12 @@ public class RobotContainer
     m_drivebase.setupPathPlanner();
   }
 
-  public Command getAutonomousCommand()
-  {
+  public Command getAutonomousCommand() {
     // Gets Selected Auto from Shuffleboard
     return autoChooser.getSelected();
   }
 
-  public void setDriveMode()
-  {
+  public void setDriveMode() {
     Command driveFieldOrientedDirectAngle = m_drivebase.driveCommand(
         () -> MathUtil.applyDeadband(driverXbox.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(driverXbox.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
@@ -135,8 +127,7 @@ public class RobotContainer
         !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngle );
   }
 
-  public void setMotorBrake(boolean brake)
-  {
+  public void setMotorBrake(boolean brake) {
     m_drivebase.setMotorBrake(brake);
   }
 }

@@ -17,9 +17,9 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public Command runShooter(double speed){
-        return run(() -> {
-            shooterMotor.set(speed);
-        });
+        return run(() ->
+            shooterMotor.set(speed)
+        );
     }
 
     // Auto

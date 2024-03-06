@@ -19,15 +19,14 @@ public class ClimberSubsystem extends SubsystemBase {
     }
 
     public Command uhOhNoWorky(double speed){
-        return run(() -> {
-            climberMain.set(speed);
-        });
+        return run(() -> 
+            climberMain.set(speed)
+        );
     }
 
     public Command uhOhNoWorkyStop() {
-        return run(() -> {
-            climberMain.set(0);
-        });
+        return run(() -> 
+            climberMain.set(0)
+        );
     }
-    // Waiting for them to make it, so I can do the math for Encoder distance
 }
