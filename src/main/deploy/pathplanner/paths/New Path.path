@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.8267774427286747,
-        "y": 7.6947536231254805
+        "x": 2.0,
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.382099983573186,
-        "y": 7.414093916506922
+        "x": 1.9671072960379539,
+        "y": 7.004798511021523
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.288247157690896,
-        "y": 7.495952997604001
+        "x": 2.0,
+        "y": 7.0
       },
       "prevControl": {
-        "x": 4.48135050116254,
-        "y": 7.4842588431615615
+        "x": 2.0255780682501534,
+        "y": 6.993104356579084
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,21 +33,27 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0.45,
+      "waypointRelativePos": 0.0,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "stopShooter"
+                "name": "runShooter"
+              }
+            },
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 1.0
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "stopConv"
+                "name": "stopShooter"
               }
             }
           ]
@@ -56,20 +62,20 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 0.01,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
-    "rotateFast": true
+    "rotation": 0,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "wilm",
+  "folder": null,
   "previewStartingState": {
-    "rotation": 89.72776947899862,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": false

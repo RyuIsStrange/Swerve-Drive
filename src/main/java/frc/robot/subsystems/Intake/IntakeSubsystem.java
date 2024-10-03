@@ -54,8 +54,8 @@ public class IntakeSubsystem extends SubsystemBase {
     
     public Command autoRunIntake(){
         return run(() -> {
-            intakeRight.set(.75);
-            intakeLeft.set(.75);
+            intakeRight.set(.85);
+            intakeLeft.set(.85);
         });
     }
 

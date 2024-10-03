@@ -31,11 +31,11 @@ public class ConvSubsystem extends SubsystemBase {
     // Auto
     public Command autoRunConv(){
         return run(() -> {
-            convMotor.set(1);
+            convMotor.set(.6);
         });
     }
     public Command stopConv(){
-        return run(() -> {
+        return runOnce(() -> {
             convMotor.set(0);
         });
     }

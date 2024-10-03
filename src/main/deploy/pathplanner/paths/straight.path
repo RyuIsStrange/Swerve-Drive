@@ -3,68 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2186814117217974,
-        "y": 7.004798511021523
+        "x": 1.2537638750491173,
+        "y": 1.8008997841357512
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4291761916857164,
-        "y": 5.671664904583371
+        "x": 2.2537638750491165,
+        "y": 1.8008997841357512
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.8501657516135543,
-        "y": 7.68305946868304
+        "x": 5.647571580178791,
+        "y": 1.8008997841357512
       },
       "prevControl": {
-        "x": 1.861859906055994,
-        "y": 7.624588696470841
+        "x": 4.941700196113986,
+        "y": 1.7939555119015234
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": 90.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "shooter",
-      "waypointRelativePos": 0.05,
+      "name": "intake",
+      "waypointRelativePos": 0,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "runShooter"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 1.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "wait",
-              "data": {
-                "waitTime": 0.5
+                "name": "runIntake"
               }
             },
             {
@@ -76,23 +53,63 @@
           ]
         }
       }
+    },
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.7,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "stopConv"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "stopShooter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "stop intake",
+      "waypointRelativePos": 0.4,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "runIntake"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 0.5,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "wilm",
+  "folder": null,
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": 0.45113854678726806,
     "velocity": 0
   },
   "useDefaultConstraints": false

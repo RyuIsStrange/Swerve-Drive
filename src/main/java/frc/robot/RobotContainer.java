@@ -1,6 +1,6 @@
 package frc.robot;
 
-// Un-used
+// Un-used but may be needed
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -49,10 +49,6 @@ public class RobotContainer {
   
   UsbCamera camera1;
   public RobotContainer() {
-    // Configure the trigger bindings
-    autoChooser = AutoBuilder.buildAutoChooser("Simple Auto");
-    SmartDashboard.putData("Auto Mode", autoChooser);
-    configurePathPlanner();
     // Conv
     NamedCommands.registerCommand("runConv", m_conv.autoRunConv());
     NamedCommands.registerCommand("stopConv", m_conv.stopConv());
@@ -62,6 +58,11 @@ public class RobotContainer {
     // Shooter
     NamedCommands.registerCommand("runShooter", m_shooter.autoShooterRun());
     NamedCommands.registerCommand("stopShooter", m_shooter.stopShooter());
+    autoChooser = AutoBuilder.buildAutoChooser("Simple Auto");
+    // Configure the trigger bindings
+    SmartDashboard.putData("Auto Mode", autoChooser);
+    //configurePathPlanner();
+    
     PortForwarder.add(5800, "photonvision.local", 5800);
     camera1 = CameraServer.startAutomaticCapture(0);
     camera1.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
