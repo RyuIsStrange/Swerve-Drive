@@ -5,6 +5,8 @@ Base Libary - https://github.com/BroncBotz3481/YAGSL/tree/main
 
 Used Exaple Project - https://github.com/BroncBotz3481/YAGSL-Example
 
+This reop was the repo I originally used for the 2024 season, however I have made a repo for that one, this one will just update as a test repo for code and offseason projects.
+
 # Swerve Hardware
 - [SDS MK4i L1](https://www.swervedrivespecialties.com/products/mk4i-swerve-module)
 - [CTRE Cancoders](https://store.ctr-electronics.com/cancoder/)
